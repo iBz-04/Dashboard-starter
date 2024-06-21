@@ -6,6 +6,12 @@
 
 A functional dashboard starter solution for saas and businesess in general
 
+### Login Credentials
+- Use this Email and password to **Login!**
+
+- **Email:** `eve.holt@reqres.in`
+- **Password:** `password`
+
 ## features
 - customizable UI using `Tailwindcss` and `Ant Design`.
 - Single page application using `React Router`.
@@ -20,10 +26,6 @@ A functional dashboard starter solution for saas and businesess in general
 - Axios interceptor enabled to handle API authorization.
 - Automated workflow for checking new Pull Request.
 
-### Credentials
-
-- **Email:** `eve.holt@reqres.in`
-- **Password:** `password`
 
 ## Usage
 
