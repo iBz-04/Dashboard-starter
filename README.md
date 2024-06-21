@@ -7,7 +7,7 @@
 A functional dashboard starter solution for saas and businesess in general
 
 ### Login Credentials
-- Use this Email and password to **Login!**
+NOTE: Use this Email and password to **Login!**
 
 - **Email:** `eve.holt@reqres.in`
 - **Password:** `password`
