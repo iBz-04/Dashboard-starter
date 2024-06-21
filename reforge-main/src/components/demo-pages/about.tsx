@@ -106,7 +106,7 @@ const About = () => {
                   <AiOutlineHeart className="text-4xl opacity-90" />
                   <h2 className="mt-4 font-display text-base text-slate-900">
                     <a
-                      href="https://github.com/arifszn/reforge/blob/main/CONTRIBUTING.md"
+                      href="https://github.com/iBz-04/Dashboard-starter/blob/main/CONTRIBUTE.MD"
                       target="_blank"
                       rel="noreferrer"
                       className="hover:text-primary"
