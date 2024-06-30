@@ -4,7 +4,7 @@
 
 ## Overview
 
-A functional dashboard starter solution for saas and businesess in general
+A fully functional  and scalable dashboard starter solution for saas and businesess in general
 
 ### Login Credentials
 NOTE: Use this Email and password to **Login!**
