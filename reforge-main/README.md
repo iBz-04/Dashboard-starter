@@ -46,7 +46,11 @@ https://reforge.netlify.app
 ### Credentials
 
 - **Email:** `eve.holt@reqres.in`
+<<<<<<< HEAD
+- **Password:** `cityslicka`
+=======
 - **Password:** `password`
+>>>>>>> c0de594807629717f784c5a55140f76533aefbe1
 
 ## Usage
 

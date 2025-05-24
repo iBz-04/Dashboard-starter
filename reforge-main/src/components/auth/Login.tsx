@@ -10,6 +10,10 @@ import { handleErrorResponse, setPageTitle } from '../../utils';
 import { Admin } from '../../interfaces/models/admin';
 import { defaultHttp } from '../../utils/http';
 
+<<<<<<< HEAD
+import { API_KEY } from '../../utils';
+=======
+>>>>>>> c0de594807629717f784c5a55140f76533aefbe1
 interface FormValues {
   email: string;
   password: string;
@@ -41,11 +45,25 @@ const Login = () => {
       .post(apiRoutes.login, {
         email: values.email,
         password: values.password,
+<<<<<<< HEAD
+      },{
+        headers: {
+          'Content-Type': 'application/json',
+          'x-api-key': API_KEY,          
+        },
+      })
+      .then((response) => {
+        const admin: Admin = {
+          token: response.data.token,          
+        };
+        console.log('Admin', admin);
+=======
       })
       .then((response) => {
         const admin: Admin = {
           token: response.data.token,
         };
+>>>>>>> c0de594807629717f784c5a55140f76533aefbe1
         dispatch(login(admin));
       })
       .catch((error) => {

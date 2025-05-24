@@ -2,6 +2,10 @@ import { AxiosError } from 'axios';
 import { toast } from 'sonner';
 
 export const API_URL = `https://reqres.in/api`;
+<<<<<<< HEAD
+export const API_KEY = `reqres-free-v1`;
+=======
+>>>>>>> c0de594807629717f784c5a55140f76533aefbe1
 
 export enum NotificationType {
   ERROR = 'error',

@@ -2,7 +2,11 @@ import { Store } from '@reduxjs/toolkit';
 import axios from 'axios';
 import { RootState } from '../store';
 import { logout } from '../store/slices/adminSlice';
+<<<<<<< HEAD
+import { API_KEY } from '.';
+=======
 
+>>>>>>> c0de594807629717f784c5a55140f76533aefbe1
 let store: Store;
 
 export const injectStore = (_store: Store) => {
@@ -10,7 +14,16 @@ export const injectStore = (_store: Store) => {
 };
 
 export const defaultHttp = axios.create();
+<<<<<<< HEAD
+const http = axios.create({
+  headers: {
+    'Content-Type': 'application/json',
+    'x-api-key': API_KEY,
+  }
+});
+=======
 const http = axios.create();
+>>>>>>> c0de594807629717f784c5a55140f76533aefbe1
 
 http.interceptors.request.use(
   (config) => {
