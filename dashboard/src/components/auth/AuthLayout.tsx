@@ -1,4 +1,4 @@
-import { Outlet } from 'react-router';
+import { Outlet } from 'react-router-dom';
 import loginBg from '../../assets/img/login-bg.png';
 
 const AuthLayout = () => {

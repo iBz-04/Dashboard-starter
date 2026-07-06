@@ -2,20 +2,26 @@ import { Outlet, useLocation, useNavigate } from 'react-router-dom';
 import { webRoutes } from '../../routes/web';
 import { Dropdown } from 'antd';
 import { ProLayout, ProLayoutProps } from '@ant-design/pro-components';
-import Icon, { LogoutOutlined } from '@ant-design/icons';
+import Icon, { DownloadOutlined, LogoutOutlined } from '@ant-design/icons';
 import { useDispatch } from 'react-redux';
 import { logout } from '../../store/slices/adminSlice';
 import { memo } from 'react';
 import { sidebar } from './sidebar';
 import { apiRoutes } from '../../routes/api';
 import http from '../../utils/http';
-import { handleErrorResponse } from '../../utils';
+import {
+  handleErrorResponse,
+  NotificationType,
+  showNotification,
+} from '../../utils';
 import { RiShieldUserFill } from 'react-icons/ri';
+import usePwaInstall from '../hooks/pwaInstall';
 
 const Layout = () => {
   const location = useLocation();
   const navigate = useNavigate();
   const dispatch = useDispatch();
+  const { canInstall, isInstalled, install } = usePwaInstall();
 
   const defaultProps: ProLayoutProps = {
     title: CONFIG.appName,
@@ -39,6 +45,70 @@ const Layout = () => {
     });
   };
 
+  const handleDownload = async () => {
+    if (isInstalled) {
+      showNotification(
+        'App is already installed on this device',
+        NotificationType.SUCCESS,
+      );
+      return;
+    }
+
+    if (canInstall) {
+      const accepted = await install();
+
+      if (accepted) {
+        showNotification(
+          'App installed successfully',
+          NotificationType.SUCCESS,
+        );
+      }
+
+      return;
+    }
+
+    const isIos = /iphone|ipad|ipod/i.test(navigator.userAgent);
+
+    if (isIos) {
+      showNotification(
+        'Tap Share, then choose Add to Home Screen',
+        NotificationType.SUCCESS,
+        'Install on iOS',
+      );
+      return;
+    }
+
+    showNotification(
+      'Use the install option in your browser menu, or run a production build to enable one-click install.',
+      NotificationType.SUCCESS,
+      'Install app',
+    );
+  };
+
+  const avatarMenuItems = [
+    ...(CONFIG.enablePWA
+      ? [
+          {
+            key: 'download',
+            icon: <DownloadOutlined />,
+            label: isInstalled ? 'Installed' : 'Download',
+            disabled: isInstalled,
+            onClick: () => {
+              void handleDownload();
+            },
+          },
+        ]
+      : []),
+    {
+      key: 'logout',
+      icon: <LogoutOutlined />,
+      label: 'Logout',
+      onClick: () => {
+        logoutAdmin();
+      },
+    },
+  ];
+
   return (
     <div className="h-screen">
       <ProLayout
@@ -54,7 +124,9 @@ const Layout = () => {
           <a
             onClick={(e) => {
               e.preventDefault();
-              item.path && navigate(item.path);
+              if (item.path) {
+                navigate(item.path);
+              }
             }}
             href={item.path}
           >
@@ -71,16 +143,7 @@ const Layout = () => {
             return (
               <Dropdown
                 menu={{
-                  items: [
-                    {
-                      key: 'logout',
-                      icon: <LogoutOutlined />,
-                      label: 'Logout',
-                      onClick: () => {
-                        logoutAdmin();
-                      },
-                    },
-                  ],
+                  items: avatarMenuItems,
                 }}
               >
                 {dom}

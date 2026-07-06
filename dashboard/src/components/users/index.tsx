@@ -16,8 +16,10 @@ import { apiRoutes } from '../../routes/api';
 import { webRoutes } from '../../routes/web';
 import {
   handleErrorResponse,
+  normalizeUser,
   NotificationType,
   showNotification,
+  getUserAvatarUrl,
 } from '../../utils';
 import http from '../../utils/http';
 import BasePageContainer from '../layout/PageContainer';
@@ -54,23 +56,18 @@ const Users = () => {
       dataIndex: 'avatar',
       align: 'center',
       sorter: false,
-      render: (_, row: User) =>
-        row.avatar ? (
-          <Avatar
-            shape="circle"
-            size="small"
-            src={
-              <LazyImage
-                src={row.avatar}
-                placeholder={<div className="bg-gray-100 h-full w-full" />}
-              />
-            }
-          />
-        ) : (
-          <Avatar shape="circle" size="small">
-            {row.first_name.charAt(0).toUpperCase()}
-          </Avatar>
-        ),
+      render: (_, row: User) => (
+        <Avatar
+          shape="circle"
+          size="small"
+          src={
+            <LazyImage
+              src={getUserAvatarUrl(row)}
+              placeholder={<div className="bg-gray-100 h-full w-full" />}
+            />
+          }
+        />
+      ),
     },
     {
       title: 'Name',
@@ -127,7 +124,7 @@ const Users = () => {
       content: (
         <ProDescriptions column={1} title=" ">
           <ProDescriptions.Item valueType="avatar" label="Avatar">
-            {user.avatar}
+            {getUserAvatarUrl(user)}
           </ProDescriptions.Item>
           <ProDescriptions.Item valueType="text" label="Name">
             {user.first_name} {user.last_name}
@@ -147,7 +144,7 @@ const Users = () => {
             showNotification(
               'Success',
               NotificationType.SUCCESS,
-              'User is deleted.'
+              'User is deleted.',
             );
 
             actionRef.current?.reloadAndRest?.();
@@ -191,7 +188,7 @@ const Users = () => {
               },
             })
             .then((response) => {
-              const users: [User] = response.data.data;
+              const users: User[] = response.data.data.map(normalizeUser);
 
               return {
                 data: users,

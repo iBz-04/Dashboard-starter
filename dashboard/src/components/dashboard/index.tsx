@@ -24,7 +24,7 @@ import LazyImage from '../lazy-image';
 import { User } from '../../interfaces/models/user';
 import http from '../../utils/http';
 import { apiRoutes } from '../../routes/api';
-import { handleErrorResponse } from '../../utils';
+import { handleErrorResponse, normalizeUser } from '../../utils';
 import { Review } from '../../interfaces/models/review';
 
 const breadcrumb: BreadcrumbProps = {
@@ -41,16 +41,6 @@ const Dashboard = () => {
   const [users, setUsers] = useState<User[]>([]);
   const [reviews, setReviews] = useState<Review[]>([]);
 
-  useEffect(() => {
-    Promise.all([loadUsers(), loadReviews()])
-      .then(() => {
-        setLoading(false);
-      })
-      .catch((error) => {
-        handleErrorResponse(error);
-      });
-  }, []);
-
   const loadUsers = () => {
     return http
       .get(apiRoutes.users, {
@@ -59,7 +49,7 @@ const Dashboard = () => {
         },
       })
       .then((response) => {
-        setUsers(response.data.data);
+        setUsers(response.data.data.map(normalizeUser));
       })
       .catch((error) => {
         handleErrorResponse(error);
@@ -86,13 +76,23 @@ const Dashboard = () => {
             };
 
             return review;
-          })
+          }),
         );
       })
       .catch((error) => {
         handleErrorResponse(error);
       });
   };
+
+  useEffect(() => {
+    Promise.all([loadUsers(), loadReviews()])
+      .then(() => {
+        setLoading(false);
+      })
+      .catch((error) => {
+        handleErrorResponse(error);
+      });
+  }, []);
 
   return (
     <BasePageContainer breadcrumb={breadcrumb} transparent={true}>
@@ -153,7 +153,7 @@ const Dashboard = () => {
           xs={24}
           style={{ marginBottom: 24 }}
         >
-          <Card bordered={false} className="w-full h-full cursor-default">
+          <Card variant="borderless" className="w-full h-full cursor-default">
             <StatisticCard.Group direction="row">
               <StatisticCard
                 statistic={{
@@ -188,7 +188,7 @@ const Dashboard = () => {
           xs={24}
           style={{ marginBottom: 24 }}
         >
-          <Card bordered={false} className="w-full h-full cursor-default">
+          <Card variant="borderless" className="w-full h-full cursor-default">
             <List
               loading={loading}
               itemLayout="horizontal"
@@ -226,11 +226,12 @@ const Dashboard = () => {
           xs={24}
           style={{ marginBottom: 24 }}
         >
-          <Card bordered={false} className="w-full h-full cursor-default">
+          <Card variant="borderless" className="w-full h-full cursor-default">
             <Table
               loading={loading}
               pagination={false}
               showHeader={false}
+              rowKey="id"
               dataSource={reviews}
               columns={[
                 {

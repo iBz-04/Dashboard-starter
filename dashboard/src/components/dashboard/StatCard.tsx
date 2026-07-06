@@ -31,17 +31,21 @@ const StatCard = ({
         {icon}
       </span>
       <div className={styles.statContent}>
-        <p className={styles.statTitle}>
+        <div className={styles.statTitle}>
           <Text
             style={{ width: '100%', color: 'grey' }}
             ellipsis={{ tooltip: title || '' }}
           >
             {title || ''}
           </Text>
-        </p>
-        <p className={styles.statNumber}>
+        </div>
+        <div className={styles.statNumber}>
           {loading ? (
-            <Skeleton paragraph={{ rows: 1 }} title={false} className="mt-4" />
+            <Skeleton.Input
+              active
+              size="small"
+              style={{ width: 80, marginTop: 8 }}
+            />
           ) : (
             <CountUp
               start={0}
@@ -51,7 +55,7 @@ const StatCard = ({
               useGrouping
             />
           )}
-        </p>
+        </div>
       </div>
     </div>
   );
@@ -66,7 +70,7 @@ const StatCard = ({
             }
           }}
           size="default"
-          bordered={false}
+          variant="borderless"
           style={{ padding: '18px 0' }}
         >
           {children}

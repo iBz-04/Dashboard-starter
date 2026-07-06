@@ -1,7 +1,24 @@
 import { AxiosError } from 'axios';
 import { toast } from 'sonner';
+import { User } from '../interfaces/models/user';
 
 export const API_URL = `https://reqres.in/api`;
+export const REQRES_API_KEY = import.meta.env.VITE_REQRES_API_KEY ?? '';
+
+export const getUserAvatarUrl = (
+  user: Pick<User, 'id' | 'first_name' | 'last_name' | 'email'>,
+) => {
+  const name =
+    `${user.first_name} ${user.last_name}`.trim() || user.email || 'User';
+  const background = CONFIG.theme.accentColor.replace('#', '');
+
+  return `https://ui-avatars.com/api/?name=${encodeURIComponent(name)}&background=${background}&color=fff&size=128&bold=true`;
+};
+
+export const normalizeUser = (user: User): User => ({
+  ...user,
+  avatar: getUserAvatarUrl(user),
+});
 
 export enum NotificationType {
   ERROR = 'error',
@@ -15,7 +32,7 @@ export const setPageTitle = (title: string) => {
 export const showNotification = (
   message = 'Something went wrong',
   type: NotificationType = NotificationType.ERROR,
-  description?: string
+  description?: string,
 ) => {
   toast[type](message, {
     description: description,
@@ -25,7 +42,7 @@ export const showNotification = (
 export const handleErrorResponse = (
   error: any, // eslint-disable-line @typescript-eslint/no-explicit-any
   callback?: () => void,
-  errorMessage?: string
+  errorMessage?: string,
 ) => {
   console.error(error);
 
@@ -35,12 +52,14 @@ export const handleErrorResponse = (
     if (typeof error === 'string') {
       try {
         error = JSON.parse(error);
-      } catch (error) {
+      } catch {
         // do nothing
       }
     }
 
-    if (error instanceof AxiosError && error?.response?.data?.error) {
+    if (error instanceof AxiosError && error?.response?.data?.message) {
+      errorMessage = error.response.data.message;
+    } else if (error instanceof AxiosError && error?.response?.data?.error) {
       errorMessage = error.response.data.error;
     } else if (error?.message) {
       errorMessage = error.message;
@@ -50,7 +69,7 @@ export const handleErrorResponse = (
   showNotification(
     errorMessage &&
       errorMessage.charAt(0).toUpperCase() + errorMessage.slice(1),
-    NotificationType.ERROR
+    NotificationType.ERROR,
   );
 
   if (callback) {

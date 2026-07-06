@@ -25,12 +25,18 @@ export default defineConfig({
       ? [
           VitePWA({
             registerType: 'autoUpdate',
+            devOptions: {
+              enabled: true,
+            },
             includeAssets: ['icon.png'],
             manifest: {
               name: CONFIG.appName,
               short_name: CONFIG.appName,
               description: CONFIG.metaTags.description,
               theme_color: CONFIG.theme.accentColor,
+              background_color: '#ffffff',
+              display: 'standalone',
+              start_url: '/',
               icons: [
                 {
                   src: 'icon.png',

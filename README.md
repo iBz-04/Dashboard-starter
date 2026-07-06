@@ -35,13 +35,26 @@ NOTE: Use this Email and password to **Login!**
 - Install dependencies.
 
   ```shell
-  npm install
+  cd dashboard
+  pnpm install
+  ```
+
+- Create your environment file.
+
+  ReqRes now requires a free API key for all `/api/*` requests.
+
+  1. Get a key from [app.reqres.in/api-keys](https://app.reqres.in/api-keys)
+  2. Copy `.env.example` to `.env`
+  3. Paste your key into `VITE_REQRES_API_KEY`
+
+  ```shell
+  cp .env.example .env
   ```
 
 - Run dev server.
 
   ```shell
-  npm run dev
+  pnpm run dev
   ```
 
 - Then, visit [`http://localhost:5173`](http://localhost:5173)
