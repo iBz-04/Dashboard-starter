@@ -79,7 +79,7 @@ const Layout = () => {
     }
 
     showNotification(
-      'Use the install option in your browser menu, or run a production build to enable one-click install.',
+      'Use the install icon in your browser address bar, or open the browser menu and choose Install app.',
       NotificationType.SUCCESS,
       'Install app',
     );

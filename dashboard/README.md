@@ -74,17 +74,34 @@ Use these demo credentials to sign in:
 
 5. Open [http://localhost:5173](http://localhost:5173)
 
+## Deploy to Vercel
+
+The app must be deployed from the `dashboard` folder, and environment variables must be set in Vercel before the build runs.
+
+1. Import the repo in [Vercel](https://vercel.com)
+2. Set **Root Directory** to `dashboard`
+3. Use these settings:
+   - **Install Command:** `pnpm install`
+   - **Build Command:** `pnpm run build`
+   - **Output Directory:** `dist`
+4. Add environment variables in **Project Settings → Environment Variables**:
+   - `VITE_REQRES_API_KEY` — your ReqRes API key from [app.reqres.in/api-keys](https://app.reqres.in/api-keys)
+   - `VITE_DEMO_MODE` — optional, set to `true` to pre-fill login credentials
+5. **Redeploy** after adding or changing environment variables
+
+Important: Vite reads `VITE_*` variables at build time. If login works locally but fails on Vercel, the API key was likely missing during the Vercel build. Add the variable, then trigger a new deployment.
+
 ## Scripts
 
-| Command | Description |
-| --- | --- |
-| `pnpm run dev` | Start the Vite dev server |
-| `pnpm run build` | Type-check and build for production |
-| `pnpm run preview` | Preview the production build locally |
-| `pnpm run lint` | Run ESLint |
-| `pnpm run lint:fix` | Run ESLint with auto-fix |
-| `pnpm run prettier` | Check formatting |
-| `pnpm run prettier:fix` | Format all supported files |
+| Command                 | Description                          |
+| ----------------------- | ------------------------------------ |
+| `pnpm run dev`          | Start the Vite dev server            |
+| `pnpm run build`        | Type-check and build for production  |
+| `pnpm run preview`      | Preview the production build locally |
+| `pnpm run lint`         | Run ESLint                           |
+| `pnpm run lint:fix`     | Run ESLint with auto-fix             |
+| `pnpm run prettier`     | Check formatting                     |
+| `pnpm run prettier:fix` | Format all supported files           |
 
 ## Configuration
 
@@ -117,13 +134,7 @@ When PWA is enabled:
 - The app can be installed from the browser install prompt
 - Users can also click **Admin → Download** in the dashboard header to install the app on their device
 - On iOS, the menu shows instructions to use **Share → Add to Home Screen**
-
-For the best install experience, test with a production build:
-
-```shell
-pnpm run build
-pnpm run preview
-```
+- On desktop Chrome or Edge, use **Admin → Download** or the install icon in the address bar
 
 ## Project Structure
 

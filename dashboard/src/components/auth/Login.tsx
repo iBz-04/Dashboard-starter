@@ -6,7 +6,12 @@ import { login } from '../../store/slices/adminSlice';
 import { RootState } from '../../store';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { webRoutes } from '../../routes/web';
-import { handleErrorResponse, REQRES_API_KEY, setPageTitle } from '../../utils';
+import {
+  handleErrorResponse,
+  getMissingReqresApiKeyMessage,
+  REQRES_API_KEY,
+  setPageTitle,
+} from '../../utils';
 import { Admin } from '../../interfaces/models/admin';
 import { defaultHttp } from '../../utils/http';
 
@@ -36,11 +41,7 @@ const Login = () => {
 
   const onSubmit = (values: FormValues) => {
     if (!REQRES_API_KEY) {
-      handleErrorResponse(
-        null,
-        undefined,
-        'Missing ReqRes API key. Add VITE_REQRES_API_KEY to dashboard/.env and restart the dev server.',
-      );
+      handleErrorResponse(null, undefined, getMissingReqresApiKeyMessage());
       return;
     }
 

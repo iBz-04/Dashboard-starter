@@ -5,6 +5,14 @@ import { User } from '../interfaces/models/user';
 export const API_URL = `https://reqres.in/api`;
 export const REQRES_API_KEY = import.meta.env.VITE_REQRES_API_KEY ?? '';
 
+export const getMissingReqresApiKeyMessage = () => {
+  if (import.meta.env.PROD) {
+    return 'Missing ReqRes API key. Add VITE_REQRES_API_KEY in your hosting provider environment variables, then redeploy the app.';
+  }
+
+  return 'Missing ReqRes API key. Add VITE_REQRES_API_KEY to dashboard/.env and restart the dev server.';
+};
+
 export const getUserAvatarUrl = (
   user: Pick<User, 'id' | 'first_name' | 'last_name' | 'email'>,
 ) => {
